@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +29,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/cart/{product}', [CartController::class, 'add']);
     Route::get('/cart', [CartController::class, 'show']);
+    Route::delete('/cart/{cart}', [CartController::class, 'destroy']);
+
+    Route::post('/order', [OrderController::class, 'store']);
+    Route::get('/order', [OrderController::class, 'show']);
 });
 
 // Admin

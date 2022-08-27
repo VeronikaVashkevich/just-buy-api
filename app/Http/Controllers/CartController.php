@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CartResource;
+use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,5 +36,25 @@ class CartController extends Controller
         return CartResource::collection(Auth::user()->cart);
     }
 
-    
+    public function destroy(Cart $cart)
+    {
+        if (Auth::id() !== $cart->user_id) {
+            return response()->json([
+                'error' => [
+                    'code' => 403,
+                    'message' => 'Forbidden for you',
+                ]
+            ], 403);
+        }
+
+        $cart->delete();
+
+        return response()->json([
+            'data' => [
+                'message' => 'Item removed from cart',
+            ]
+        ]);
+    }
+
+
 }
